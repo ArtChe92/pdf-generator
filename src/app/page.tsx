@@ -1,10 +1,20 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import Test from "./components/Test";
+import { IData } from "./api/generate/route";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const res = await fetch("http://localhost:3000/api/generate");
+  const data: IData[] | null = await res.json();
+
+  if (!data) return null;
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
+        <Test data={data} />
         <Image
           className={styles.logo}
           src="/next.svg"
